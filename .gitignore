@@ -56,4 +56,4 @@ application-local.yml
 *.mv.db
 *.trace.db
 data/
-pom.xml
+
