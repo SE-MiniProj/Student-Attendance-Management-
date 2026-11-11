@@ -4,8 +4,10 @@
 // `bare` renders without the app shell (login).
 import { route as login } from './pages/login.js';
 import { route as courses } from './pages/courses.js';
+import { route as semesters } from './pages/semesters.js';
 
 export const routes = [
   login,
   courses,
+  semesters,
 ];
