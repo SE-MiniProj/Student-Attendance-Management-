@@ -1,3 +1,12 @@
-// Entry point. Later commits wire in the session, router and pages.
+import { session } from './session.js';
+import { startRouter } from './router.js';
+import { replaceChildren } from './dom.js';
+
 const app = document.getElementById('app');
-app.textContent = 'SAMS is loading…';
+
+// Until the layout exists, pages are mounted straight into #app.
+startRouter((route, content) => {
+  replaceChildren(app, content);
+});
+
+export { session };
