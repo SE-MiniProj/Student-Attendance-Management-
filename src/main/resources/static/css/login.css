@@ -10,7 +10,8 @@
   padding: var(--s-7) clamp(2rem, 6vw, 5rem);
   display: flex; flex-direction: column; justify-content: space-between; gap: var(--s-6);
 }
-.brand { display: inline-flex; align-items: center; gap: var(--s-3); font-weight: 700; font-size: var(--text-lg); letter-spacing: .01em; }
+.login .brand { display: inline-flex; align-items: center; gap: var(--s-3); font-weight: 700; font-size: var(--text-lg); letter-spacing: .01em; }
+.login-aside .brand { color: #fff; }
 .brand-mark { width: 2rem; height: 2rem; flex: none; }
 .login-aside h1 { font-size: clamp(2rem, 3.4vw, 2.75rem); max-width: 16ch; }
 .login-aside .lede { margin-top: var(--s-4); max-width: 34ch; color: rgba(255,255,255,.82); font-size: var(--text-lg); }

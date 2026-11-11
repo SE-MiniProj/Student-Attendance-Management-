@@ -1,12 +1,18 @@
-import { session } from './session.js';
+import './session.js';
 import { startRouter } from './router.js';
 import { replaceChildren } from './dom.js';
+import { shell } from './ui/shell.js';
 
 const app = document.getElementById('app');
 
-// Until the layout exists, pages are mounted straight into #app.
-startRouter((route, content) => {
-  replaceChildren(app, content);
-});
-
-export { session };
+startRouter(
+  (route, content) => {
+    if (route.bare) {
+      shell.reset();
+      replaceChildren(app, content);
+    } else {
+      shell.show(app, route, content);
+    }
+  },
+  (route) => { if (!route.bare) shell.busy(); },
+);

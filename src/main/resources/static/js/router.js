@@ -34,10 +34,15 @@ function home() {
 }
 
 let show = () => {};
+let onLoading = () => {};
 
-/** `present(route, contentPromise)` draws the page (inside the app shell, or bare for login). */
-export function startRouter(present) {
+/**
+ * `present(route, content)` draws a page (inside the app shell, or bare for login).
+ * `loading()` is called when navigation starts, so the old page can be dimmed.
+ */
+export function startRouter(present, loading = () => {}) {
   show = present;
+  onLoading = loading;
   window.addEventListener('hashchange', handleRoute);
   handleRoute();
 }
@@ -61,6 +66,7 @@ async function handleRoute() {
   }
 
   document.title = `${route.title} – SAMS`;
+  onLoading(route);
   const ctx = { query: currentQuery(), user: session.user };
   present(token, route, Promise.resolve().then(() => route.render(ctx)));
 }

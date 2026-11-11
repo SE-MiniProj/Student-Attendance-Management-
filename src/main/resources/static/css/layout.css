@@ -1,0 +1,74 @@
+/* App frame: sidebar + content */
+.shell { display: grid; grid-template-columns: var(--sidebar-w) minmax(0, 1fr); min-height: 100vh; }
+
+.sidebar {
+  position: sticky; top: 0; height: 100vh;
+  display: flex; flex-direction: column;
+  background: var(--paper); border-right: 1px solid var(--rule);
+}
+.sidebar-head { display: flex; align-items: center; justify-content: space-between; padding: var(--s-5) var(--s-4) var(--s-4) var(--s-5); }
+.brand { display: inline-flex; align-items: center; gap: var(--s-3); color: var(--pen); font-weight: 700; font-size: var(--text-lg); text-decoration: none; }
+.brand:hover { color: var(--pen-strong); }
+.brand img { display: block; border-radius: 7px; }
+
+.nav { flex: 1; overflow-y: auto; padding: var(--s-2) var(--s-3) var(--s-4); display: flex; flex-direction: column; gap: var(--s-4); }
+.nav-group { display: flex; flex-direction: column; gap: 2px; }
+.nav-heading { padding: var(--s-2) var(--s-3); font-size: var(--text-sm); font-weight: 600; color: var(--ink-soft); }
+
+/* Active page is marked by a margin line, like the rule down the side of a notebook page */
+.nav-link {
+  position: relative; display: flex; align-items: center; gap: var(--s-3);
+  padding: .55rem var(--s-3) .55rem var(--s-4); border-radius: var(--r-sm);
+  color: var(--ink); text-decoration: none; font-weight: 500;
+}
+.nav-link svg { flex: none; color: var(--ink-soft); }
+.nav-link:hover { background: var(--chalk); color: var(--ink); }
+.nav-link[aria-current="page"] { background: var(--pen-wash); color: var(--pen-strong); font-weight: 600; }
+.nav-link[aria-current="page"] svg { color: var(--pen); }
+.nav-link[aria-current="page"]::before {
+  content: ""; position: absolute; left: 0; top: .35rem; bottom: .35rem; width: 3px; border-radius: 2px; background: var(--pen);
+}
+
+.sidebar-foot { display: flex; align-items: center; gap: var(--s-3); padding: var(--s-4); border-top: 1px solid var(--rule); }
+.avatar { width: 2.25rem; height: 2.25rem; flex: none; display: grid; place-items: center; border-radius: 50%; background: var(--pen-wash); color: var(--pen-strong); font-weight: 700; font-size: var(--text-sm); }
+.who { flex: 1; min-width: 0; display: flex; flex-direction: column; line-height: 1.25; }
+.who strong { font-size: var(--text-md); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+.icon-btn { display: inline-grid; place-items: center; width: 2.25rem; height: 2.25rem; padding: 0; border: 0; border-radius: var(--r-sm); background: transparent; color: var(--ink-soft); cursor: pointer; }
+.icon-btn:hover { background: var(--chalk); color: var(--ink); }
+
+.main-col { min-width: 0; display: flex; flex-direction: column; }
+.topbar { display: none; }
+.main { flex: 1; padding: var(--s-6) clamp(var(--s-4), 4vw, var(--s-7)) var(--s-7); outline: none; }
+.main[aria-busy="true"] { opacity: .55; transition: opacity .15s .15s; }
+
+/* Shared page chrome */
+.page { max-width: var(--content-w); margin: 0 auto; display: flex; flex-direction: column; gap: var(--s-5); }
+.page-head { display: flex; align-items: flex-end; justify-content: space-between; gap: var(--s-4); flex-wrap: wrap; }
+.page-head p { margin-top: var(--s-2); color: var(--ink-soft); max-width: 60ch; }
+.page-actions { display: flex; gap: var(--s-2); flex-wrap: wrap; }
+
+.empty-state { max-width: 30rem; margin: var(--s-7) auto; display: flex; flex-direction: column; align-items: flex-start; gap: var(--s-3); }
+
+/* Small screens: the sidebar becomes a drawer */
+.close-btn, .scrim { display: none; }
+
+@media (max-width: 56rem) {
+  .shell { display: block; }
+  .topbar {
+    display: flex; align-items: center; gap: var(--s-3);
+    position: sticky; top: 0; z-index: 20; padding: var(--s-2) var(--s-3);
+    background: var(--paper); border-bottom: 1px solid var(--rule);
+  }
+  .sidebar {
+    position: fixed; z-index: 40; inset: 0 auto 0 0; width: min(18rem, 86vw);
+    transform: translateX(-100%); visibility: hidden;
+    transition: transform .2s ease, visibility 0s .2s;
+  }
+  .drawer-open .sidebar { transform: none; visibility: visible; transition: transform .2s ease; box-shadow: var(--shadow-pop); }
+  .close-btn { display: inline-grid; }
+  .scrim { position: fixed; inset: 0; z-index: 30; background: rgba(28, 35, 54, .45); }
+  .drawer-open .scrim { display: block; }
+  .drawer-open { overflow: hidden; }
+  .main { padding-top: var(--s-5); }
+}
