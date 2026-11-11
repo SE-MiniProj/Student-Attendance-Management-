@@ -34,6 +34,10 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**", "/h2-console/**").permitAll()
+                        // Static single-page UI (src/main/resources/static). The pages are public;
+                        // every API call they make still needs a valid JWT.
+                        .requestMatchers("/", "/index.html", "/favicon.svg",
+                                "/css/**", "/js/**", "/fonts/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
