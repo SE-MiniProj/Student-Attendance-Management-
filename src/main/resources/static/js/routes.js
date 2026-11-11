@@ -3,7 +3,9 @@
 // `nav` puts the page in the sidebar; `roles` limits who can open it (omit = any signed-in user);
 // `bare` renders without the app shell (login).
 import { route as login } from './pages/login.js';
+import { route as courses } from './pages/courses.js';
 
 export const routes = [
   login,
+  courses,
 ];
