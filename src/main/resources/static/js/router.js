@@ -47,7 +47,11 @@ async function handleRoute() {
   const token = ++navToken;
 
   if (!session.isSignedIn && path !== '/login') return navigate('/login');
-  if (session.isSignedIn && path === '/login') return navigate(home());
+  if (session.isSignedIn && path === '/login') {
+    const target = home();
+    if (target !== '/login') return navigate(target);
+    return present(token, notFound, Promise.resolve(emptyPage('No pages available', 'Your account has no pages yet. Ask an administrator for access.')));
+  }
   if (path === '/' && !routes.some((r) => r.path === '/')) return navigate(home());
 
   const route = routes.find((r) => r.path === path);

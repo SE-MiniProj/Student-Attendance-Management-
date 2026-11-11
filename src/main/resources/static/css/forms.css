@@ -1,0 +1,65 @@
+/* Buttons and form controls */
+
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: var(--s-2);
+  min-height: 2.5rem; padding: 0 var(--s-4);
+  background: var(--paper); color: var(--ink);
+  border: 1px solid var(--rule-strong); border-radius: var(--r-sm);
+  font-weight: 600; font-size: var(--text-md); line-height: 1; text-decoration: none;
+  cursor: pointer; transition: background-color .12s, border-color .12s;
+}
+.btn:hover { background: var(--chalk); border-color: var(--ink-soft); color: var(--ink); }
+.btn:disabled, .btn[aria-busy="true"] { opacity: .6; cursor: not-allowed; }
+
+.btn-primary { background: var(--pen); border-color: var(--pen); color: #fff; }
+.btn-primary:hover { background: var(--pen-strong); border-color: var(--pen-strong); color: #fff; }
+
+.btn-danger { color: var(--danger); border-color: var(--danger); }
+.btn-danger:hover { background: var(--danger-wash); border-color: var(--danger); color: var(--danger); }
+.btn-danger.btn-solid { background: var(--danger); color: #fff; }
+.btn-danger.btn-solid:hover { background: #9f281d; color: #fff; }
+
+.btn-quiet { border-color: transparent; background: transparent; }
+.btn-quiet:hover { background: var(--pen-wash); border-color: transparent; }
+
+.btn-sm { min-height: 2rem; padding: 0 var(--s-3); font-size: var(--text-sm); }
+
+.btn[aria-busy="true"]::before {
+  content: ""; width: .95em; height: .95em; border-radius: 50%;
+  border: 2px solid currentColor; border-right-color: transparent;
+  animation: spin .7s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Fields */
+.field { display: flex; flex-direction: column; gap: var(--s-1); min-width: 0; }
+.field > label, .field > .label { font-weight: 600; font-size: var(--text-sm); }
+.field-hint { font-size: var(--text-sm); color: var(--ink-soft); }
+.field-error { font-size: var(--text-sm); color: var(--danger); font-weight: 500; }
+
+.input, .select, .textarea {
+  width: 100%; min-height: 2.5rem; padding: .5rem .75rem;
+  background: var(--paper); color: var(--ink);
+  border: 1px solid var(--rule-strong); border-radius: var(--r-sm);
+  transition: border-color .12s;
+}
+.textarea { min-height: 5rem; resize: vertical; }
+.input:hover, .select:hover, .textarea:hover { border-color: var(--ink-soft); }
+.input:focus-visible, .select:focus-visible, .textarea:focus-visible { border-color: var(--pen); box-shadow: var(--ring); }
+.input:disabled, .select:disabled { background: var(--chalk); color: var(--ink-soft); }
+.field.has-error .input, .field.has-error .select { border-color: var(--danger); }
+
+.input-group { position: relative; }
+.input-group .input { padding-right: 4.5rem; }
+.input-group .btn { position: absolute; right: .25rem; top: 50%; transform: translateY(-50%); }
+
+input[type="checkbox"], input[type="radio"] { accent-color: var(--pen); width: 1.05rem; height: 1.05rem; }
+
+.form-error {
+  padding: var(--s-3) var(--s-4); border-radius: var(--r-sm);
+  background: var(--danger-wash); color: #8c241a; font-weight: 500;
+}
+.form-info {
+  padding: var(--s-3) var(--s-4); border-radius: var(--r-sm);
+  background: var(--pen-wash); color: var(--pen-strong); font-weight: 500;
+}
