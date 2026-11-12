@@ -25,7 +25,10 @@ public class EnrollmentController {
         this.enrollmentService = enrollmentService;
     }
 
+    // Teachers need the class list to take attendance. A method-level rule
+    // overrides the class-level ADMIN rule; every write below stays admin-only.
     @GetMapping("/section/{sectionId}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER')")
     public List<EnrollmentResponse> findBySection(@PathVariable Long sectionId) {
         return enrollmentService.findBySectionId(sectionId);
     }
