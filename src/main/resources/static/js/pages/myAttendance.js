@@ -2,10 +2,8 @@
 import { api } from '../api.js';
 import { h, replaceChildren, fmtDate, fmtWeekday, fmtPercent } from '../dom.js';
 import { pageHead, dataTable, emptyBlock, loadingBlock } from '../ui/components.js';
-import { statusBadge } from '../ui/status.js';
+import { statusBadge, REQUIRED_PERCENT } from '../ui/status.js';
 import { toast } from '../ui/toast.js';
-
-export const REQUIRED_PERCENT = 75;      // the usual minimum; the API itself does not enforce one
 
 /** Plain-language outlook for a course given attended / total classes. */
 export function outlook(attended, total, required = REQUIRED_PERCENT) {

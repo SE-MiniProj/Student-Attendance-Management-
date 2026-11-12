@@ -16,6 +16,7 @@ const PATHS = {
   edit: '<path d="M12.5 4.5l3 3M4 16l.7-3.3L13.2 4.2a1.4 1.4 0 012 0l.6.6a1.4 1.4 0 010 2L7.3 15.3z"/>',
   trash: '<path d="M4 6h12M8 6V4h4v2M6 6l.6 10h6.8L14 6M8.5 9v4M11.5 9v4"/>',
   upload: '<path d="M10 13V4M6.5 7.5L10 4l3.5 3.5M4 13v3h12v-3"/>',
+  download: '<path d="M10 4v9M6.5 9.5L10 13l3.5-3.5M4 13v3h12v-3"/>',
 };
 
 export function icon(name, size = 20) {
