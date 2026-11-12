@@ -18,6 +18,7 @@
 12. [Deactivation Enforcement](#12-deactivation-enforcement)
 13. [Bulk CSV Enrollment](#13-bulk-csv-enrollment)
 14. [Build & Run Instructions](#14-build--run-instructions)
+15. [Web UI](#15-web-ui)
 
 ---
 
@@ -274,6 +275,8 @@ app.jwt.expiry-ms=86400000
 | `POST /api/attendance` (mark) | ✅ | ✅ | ❌ |
 | `GET /api/attendance/student/{id}/...` | ✅ | ✅ | ✅ (own only) |
 | `GET /api/students` | ✅ | ✅ | ❌ |
+| `GET /api/students/me` | ❌ | ❌ | ✅ |
+| `GET /api/admin/enrollments/section/{id}` | ✅ | ✅ | ❌ |
 
 ### How RBAC is enforced
 
@@ -443,7 +446,7 @@ Assign faculty body:
 
 | Method | Path | Description |
 |---|---|---|
-| `GET` | `/api/admin/enrollments/section/{sectionId}` | List all students in a section |
+| `GET` | `/api/admin/enrollments/section/{sectionId}` | List all students in a section (ADMIN and TEACHER) |
 | `POST` | `/api/admin/enrollments` | Enroll one student |
 | `DELETE` | `/api/admin/enrollments/{enrollmentId}` | Remove one enrollment |
 | `POST` | `/api/admin/enrollments/bulk` | Bulk enroll via CSV file |
@@ -751,6 +754,71 @@ All errors follow [RFC 7807 Problem Detail](https://datatracker.ietf.org/doc/htm
 | `403 Forbidden` | Deactivated account, or insufficient role |
 | `404 Not Found` | Resource (user, course, section, etc.) not found |
 | `409 Conflict` | Duplicate email, roll number, enrollment, etc. |
+
+---
+
+## 15. Web UI
+
+A single-page app lives in `src/main/resources/static` and is served by Spring Boot at `/`. It uses plain HTML, CSS and ES modules, so there is no Node toolchain or build step.
+
+### Layout
+
+```
+static/
+├── index.html
+├── css/        tokens.css (colours, type, spacing) · base · forms · layout · components
+│               · register · attendance · dashboard · login
+├── fonts/      Public Sans, Young Serif (SIL OFL, licences included)
+└── js/
+    ├── main.js        entry point: starts the router, picks shell or bare layout
+    ├── api.js         fetch wrapper: Bearer token, JSON/multipart, problem-detail errors
+    ├── session.js     sign-in/out, role checks, token kept in localStorage
+    ├── router.js      #/path router with signed-in and role guards
+    ├── routes.js      page registry (path, title, roles, sidebar entry)
+    ├── dom.js         h() element builder, date helpers (text only, never innerHTML)
+    ├── ui/            shell, modal, form dialog, table, toast, icons, status marks
+    └── pages/         login, dashboard, register, report, myAttendance,
+                       users, courses, semesters, sections, enrollments
+```
+
+To add a page, create a module in `pages/` that exports a `route` object and add it to `routes.js`. The sidebar is generated from that registry and filtered by role.
+
+### Pages
+
+| Route | Roles | Purpose |
+|---|---|---|
+| `#/` | all | Role-specific dashboard |
+| `#/attendance/mark` | admin, teacher | Mark a section's attendance for a date |
+| `#/reports` | admin, teacher | Per-student percentages for a section, history, CSV export |
+| `#/my-attendance` | student | Percentage per course, outlook and history |
+| `#/admin/users` `courses` `semesters` `sections` `enrollments` | admin | Management screens |
+
+Teachers only see sections assigned to them in the attendance and report pages. This filtering happens in the UI; the API itself does not restrict a teacher to their own sections.
+
+### API changes made for the UI
+
+1. `GET /api/admin/enrollments/section/{id}` now also allows `TEACHER`, so a teacher can read the class list. All other enrollment endpoints remain admin-only.
+2. `GET /api/students/me` (student role) returns the caller's legacy `Student` record, matched by roll number and then email.
+
+### API behaviour the UI works around
+
+- **Two student ids.** Attendance endpoints take the legacy `Student` id, while login and enrollments expose the `User` id. The register matches enrolled students to `/api/students` by roll number; the student views use `/api/students/me`.
+- **Marks cannot be edited.** There is no update endpoint and a second mark for the same student, course and date returns 409, so recorded marks are shown locked.
+- **Unauthenticated requests get an empty 403**, not 401, because the filter chain rejects them before any controller runs. A role failure inside a controller returns a JSON problem body. The client uses that difference to tell "session ended" from "not allowed".
+- **Deleting a course or section that is still referenced returns 500.** The UI explains this in plain language instead of showing a generic error.
+- **User edits do not update the legacy `Student` row.** Changing a student's email or roll number on the Users page leaves the `students` table as it was.
+- **No minimum attendance in the API.** The 75% line is a constant in `ui/status.js`.
+
+### Security notes
+
+- All API data is rendered as text; the UI never builds HTML from API content.
+- The JWT is stored in `localStorage`, so it survives refreshes but would be readable by any script injected into the page. Keeping all rendering text-only is the main defence.
+- The demo-account buttons on the login page only appear when the host is `localhost`.
+- CSV export prefixes cells starting with `=`, `+`, `-` or `@` so spreadsheets do not run them as formulas.
+
+### Testing
+
+The UI has no automated tests yet. A natural next step is end-to-end tests with Playwright against the running app.
 
 ---
 
