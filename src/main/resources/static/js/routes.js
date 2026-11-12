@@ -6,10 +6,12 @@ import { route as login } from './pages/login.js';
 import { route as users } from './pages/users.js';
 import { route as courses } from './pages/courses.js';
 import { route as semesters } from './pages/semesters.js';
+import { route as sections } from './pages/sections.js';
 
 export const routes = [
   login,
   users,
   courses,
   semesters,
+  sections,
 ];
