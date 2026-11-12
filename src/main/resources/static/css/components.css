@@ -64,3 +64,6 @@
   .modal-wide .form-grid { grid-template-columns: 1fr; }
   .toasts { left: var(--s-4); }
 }
+
+.error-list { margin: var(--s-2) 0 0; padding-left: var(--s-5); color: var(--absent); font-size: var(--text-sm); max-height: 10rem; overflow-y: auto; }
+.table th input[type="checkbox"], .table td input[type="checkbox"] { vertical-align: middle; }
