@@ -4,6 +4,7 @@
 // `bare` renders without the app shell (login).
 import { route as login } from './pages/login.js';
 import { route as register } from './pages/register.js';
+import { route as myAttendance } from './pages/myAttendance.js';
 import { route as users } from './pages/users.js';
 import { route as courses } from './pages/courses.js';
 import { route as semesters } from './pages/semesters.js';
@@ -13,6 +14,7 @@ import { route as enrollments } from './pages/enrollments.js';
 export const routes = [
   login,
   register,
+  myAttendance,
   users,
   courses,
   semesters,

@@ -1,0 +1,16 @@
+/* Student attendance: course cards with a gauge */
+.course-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr)); gap: var(--s-4); }
+.course-card { display: flex; flex-direction: column; align-items: flex-start; gap: var(--s-2); padding: var(--s-4) var(--s-5); text-align: left; cursor: pointer; transition: border-color .12s, box-shadow .12s; }
+.course-card:hover { border-color: var(--rule-strong); }
+.course-card[aria-pressed="true"] { border-color: var(--pen); box-shadow: 0 0 0 1px var(--pen); }
+.cc-top { display: flex; flex-direction: column; line-height: 1.3; }
+.cc-pct { font-family: var(--font-display); font-size: 2.75rem; line-height: 1.05; letter-spacing: -0.02em; }
+.cc-present { color: var(--present); } .cc-late { color: var(--late); } .cc-absent { color: var(--absent); } .cc-neutral { color: var(--ink-soft); }
+.cc-outlook { font-size: var(--text-sm); font-weight: 500; }
+.cc-present-text { color: var(--present); } .cc-late-text { color: var(--late); } .cc-absent-text { color: var(--absent); }
+
+.gauge { position: relative; width: 100%; height: .6rem; border-radius: 999px; background: var(--rule); margin: var(--s-1) 0; }
+.gauge-fill { height: 100%; border-radius: inherit; background: var(--present); }
+.gauge-late .gauge-fill { background: #d49a14; }
+.gauge-absent .gauge-fill { background: var(--absent); }
+.gauge-mark { position: absolute; top: -.25rem; bottom: -.25rem; width: 2px; margin-left: -1px; background: var(--ink); border-radius: 1px; }
