@@ -1,0 +1,46 @@
+/* The register: a ruled page with a margin line, one row per student */
+.register { overflow: hidden; }
+.register-head { display: flex; justify-content: space-between; gap: var(--s-3); flex-wrap: wrap; padding: var(--s-4) var(--s-5); border-bottom: 1px solid var(--rule-strong); }
+.register-list { list-style: none; margin: 0; padding: 0; position: relative; }
+.register-list::before { content: ""; position: absolute; top: 0; bottom: 0; left: 3.4rem; width: 1px; background: #aebbe6; }
+
+.register-row { display: grid; grid-template-columns: 3.4rem minmax(0, 1fr) auto; align-items: center; column-gap: var(--s-4); padding: .55rem var(--s-5) .55rem 0; border-bottom: 1px solid var(--rule); }
+.register-row:last-child { border-bottom: 0; }
+.register-row:hover { background: #f7f9fc; }
+.register-row .serial { text-align: center; color: var(--ink-soft); font-size: var(--text-sm); }
+.register-row .who { display: flex; flex-direction: column; line-height: 1.3; min-width: 0; }
+.register-row .who strong { overflow: hidden; text-overflow: ellipsis; }
+.register-row .locked { display: inline-flex; align-items: center; gap: var(--s-2); }
+.row-error { grid-column: 2 / -1; padding-bottom: var(--s-1); }
+
+/* Segmented P / A / L / E control. Real radio inputs, so arrow keys work. */
+.seg { display: inline-flex; border: 0; margin: 0; padding: 0; min-width: 0; gap: 4px; }
+.seg-opt { position: relative; cursor: pointer; }
+.seg-opt input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+.seg-text { display: inline-flex; align-items: center; justify-content: center; min-width: 2.6rem; height: 2.25rem; padding: 0 var(--s-3); border: 1px solid var(--rule-strong); border-radius: var(--r-sm); background: var(--paper); font-weight: 600; font-size: var(--text-sm); color: var(--ink-soft); transition: background-color .1s, color .1s, border-color .1s; }
+.seg-opt:hover .seg-text { border-color: var(--ink-soft); color: var(--ink); }
+.seg-opt .long { display: none; }
+.seg-opt input:focus-visible + .seg-text { box-shadow: var(--ring); }
+.seg-present input:checked + .seg-text { background: var(--present-wash); border-color: var(--present); color: var(--present); }
+.seg-absent input:checked + .seg-text { background: var(--absent-wash); border-color: var(--absent); color: var(--absent); }
+.seg-late input:checked + .seg-text { background: var(--late-wash); border-color: var(--late); color: var(--late); }
+.seg-excused input:checked + .seg-text { background: var(--excused-wash); border-color: var(--excused); color: var(--excused); }
+
+.register-summary { display: flex; flex-wrap: wrap; gap: var(--s-2); }
+.tally { display: inline-flex; gap: .3em; padding: .2rem .65rem; border-radius: 999px; background: var(--paper); border: 1px solid var(--rule); font-size: var(--text-sm); color: var(--ink-soft); }
+.tally strong { color: var(--ink); }
+.tally-present strong { color: var(--present); }
+.tally-absent strong { color: var(--absent); }
+.tally-late strong { color: var(--late); }
+.tally-excused strong { color: var(--excused); }
+
+.register-foot { position: sticky; bottom: 0; display: flex; justify-content: flex-end; padding: var(--s-3) 0; background: linear-gradient(to top, var(--chalk) 70%, transparent); }
+.register-foot .btn { min-width: 11rem; min-height: 2.75rem; }
+
+@media (min-width: 40rem) { .seg-opt .short { display: none; } .seg-opt .long { display: inline; } }
+@media (max-width: 40rem) {
+  .register-row { grid-template-columns: 2.6rem minmax(0, 1fr); row-gap: var(--s-2); padding: var(--s-3) var(--s-3) var(--s-3) 0; }
+  .register-list::before { left: 2.6rem; }
+  .register-row .seg, .register-row .locked { grid-column: 2; }
+  .seg { width: 100%; } .seg-opt { flex: 1; } .seg-text { width: 100%; }
+}

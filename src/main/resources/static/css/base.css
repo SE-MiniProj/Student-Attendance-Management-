@@ -45,6 +45,8 @@ button, input, select, textarea { font: inherit; color: inherit; }
   overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
 }
 
+[hidden] { display: none !important; }
+
 .muted { color: var(--ink-soft); }
 .small { font-size: var(--text-sm); }
 .num   { font-variant-numeric: tabular-nums; }
