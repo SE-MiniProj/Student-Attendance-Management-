@@ -1,6 +1,6 @@
 # Attendance Management System
 
-A Spring Boot REST API for managing students, courses and daily attendance, including per-student attendance percentages.
+A Spring Boot REST API and web UI for managing students, courses and daily attendance, including per-student attendance percentages.
 
 ## Tech Stack
 
@@ -28,7 +28,12 @@ attendance-management-system/
     │   │   └── exception/     # Custom exceptions and global handler
     │   └── resources/
     │       ├── application.properties
-    │       └── application-prod.properties
+    │       ├── application-prod.properties
+    │       └── static/        # Web UI (plain HTML/CSS/JS, no build step)
+    │           ├── index.html
+    │           ├── css/       # tokens, layout, components, page styles
+    │           ├── fonts/     # Public Sans and Young Serif (OFL), self-hosted
+    │           └── js/        # api, session, router, ui/ components, pages/
     └── test/
         └── java/com/example/attendance/
 ```
@@ -47,6 +52,18 @@ mvn spring-boot:run
 ```
 
 The API starts on `http://localhost:8080`. In the default profile the data lives in memory and resets on every restart. The H2 console is available at `http://localhost:8080/h2-console` (JDBC URL `jdbc:h2:mem:attendancedb`, user `sa`, empty password).
+
+### Web UI
+
+Open `http://localhost:8080/` and sign in. On localhost the login page has buttons that fill in the seeded demo accounts (see `SYSTEM_DOCUMENTATION.md`, section 9).
+
+| Role | What they can do |
+|------|------------------|
+| Admin | Manage users, courses, semesters, sections and enrollments (including CSV upload); take attendance; view class reports |
+| Teacher | Take attendance for their own sections; view class reports and per-student history; download a CSV |
+| Student | See attendance percentage per course against the 75% line, and the day-by-day history |
+
+The UI is static files served by Spring Boot itself, so there is nothing extra to install or build. After editing files under `src/main/resources/static`, restart the app (or run `mvn process-resources`) and refresh. More detail is in section 15 of `SYSTEM_DOCUMENTATION.md`.
 
 ### Run tests
 
@@ -74,6 +91,7 @@ The prod profile uses `ddl-auto=validate`, so create the schema first (for examp
 | POST | `/api/students` | Create a student |
 | GET | `/api/students` | List students |
 | GET | `/api/students/{id}` | Get a student |
+| GET | `/api/students/me` | The signed-in student's own record (student role) |
 | PUT | `/api/students/{id}` | Update a student |
 | DELETE | `/api/students/{id}` | Delete a student |
 | POST | `/api/courses` | Create a course |

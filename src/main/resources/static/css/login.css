@@ -1,0 +1,49 @@
+.login {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+}
+
+/* Left: the pen-blue desk with a page of the register on it */
+.login-aside {
+  background: var(--pen); color: #fff;
+  padding: var(--s-7) clamp(2rem, 6vw, 5rem);
+  display: flex; flex-direction: column; justify-content: space-between; gap: var(--s-6);
+}
+.login .brand { display: inline-flex; align-items: center; gap: var(--s-3); font-weight: 700; font-size: var(--text-lg); letter-spacing: .01em; }
+.login-aside .brand { color: #fff; }
+.brand-mark { width: 2rem; height: 2rem; flex: none; }
+.login-aside h1 { font-size: clamp(2rem, 3.4vw, 2.75rem); max-width: 16ch; }
+.login-aside .lede { margin-top: var(--s-4); max-width: 34ch; color: rgba(255,255,255,.82); font-size: var(--text-lg); }
+
+.sample-page {
+  background: var(--paper); color: var(--ink); border-radius: var(--r-md);
+  padding: var(--s-4) var(--s-5) var(--s-3) calc(var(--s-5) + 2.6rem);
+  max-width: 26rem; position: relative;
+  box-shadow: 0 18px 40px rgba(8, 16, 50, .35);
+  background-image: linear-gradient(to right, transparent calc(2.6rem + var(--s-5) - 1px), #aebbe6 0, #aebbe6 calc(2.6rem + var(--s-5)), transparent 0);
+}
+.sample-page .sample-title { font-weight: 600; font-size: var(--text-sm); color: var(--ink-soft); padding-bottom: var(--s-2); }
+.sample-row { display: flex; align-items: center; justify-content: space-between; gap: var(--s-3); padding: .55rem 0; border-top: 1px solid var(--rule); font-size: var(--text-md); }
+.sample-row .m { width: 1.7rem; height: 1.7rem; border-radius: 50%; display: grid; place-items: center; font-weight: 700; font-size: var(--text-sm); }
+.m-p { background: var(--present-wash); color: var(--present); }
+.m-a { background: var(--absent-wash); color: var(--absent); }
+.m-l { background: var(--late-wash); color: var(--late); }
+.m-e { background: var(--excused-wash); color: var(--excused); }
+
+/* Right: the form */
+.login-main { display: grid; place-items: center; padding: var(--s-6) var(--s-5); background: var(--chalk); }
+.login-card { width: 100%; max-width: 24rem; display: flex; flex-direction: column; gap: var(--s-5); }
+.login-card .brand { display: none; color: var(--pen); }
+.login-card h2 { font-family: var(--font-display); font-weight: 400; font-size: var(--text-xl); }
+.login-form { display: flex; flex-direction: column; gap: var(--s-4); }
+.login-form .btn-primary { width: 100%; min-height: 2.75rem; }
+
+.demo-box { border-top: 1px solid var(--rule-strong); padding-top: var(--s-4); display: flex; flex-direction: column; gap: var(--s-2); }
+.demo-box .row { display: flex; gap: var(--s-2); flex-wrap: wrap; }
+
+@media (max-width: 52rem) {
+  .login { grid-template-columns: 1fr; }
+  .login-aside { display: none; }
+  .login-card .brand { display: inline-flex; }
+}

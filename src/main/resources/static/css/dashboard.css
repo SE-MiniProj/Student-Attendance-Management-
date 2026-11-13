@@ -1,0 +1,13 @@
+.go-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr)); gap: var(--s-4); }
+.go-card { display: flex; flex-direction: column; gap: var(--s-1); padding: var(--s-4) var(--s-5); color: var(--ink); text-decoration: none; transition: border-color .12s; }
+.go-card:hover { border-color: var(--pen); color: var(--ink); }
+.go-card strong { color: var(--pen-strong); }
+
+.section-card { display: flex; flex-direction: column; align-items: flex-start; gap: var(--s-2); padding: var(--s-4) var(--s-5); }
+.section-actions { display: flex; gap: var(--s-2); margin-top: var(--s-2); flex-wrap: wrap; }
+
+.plain-list { list-style: none; margin: 0; padding: 0; }
+.plain-list li + li { border-top: 1px solid var(--rule); }
+.list-row { display: flex; align-items: center; justify-content: space-between; gap: var(--s-4); padding: var(--s-4) var(--s-5); color: var(--ink); text-decoration: none; }
+.list-row:hover { background: #f7f9fc; color: var(--ink); }
+.list-row strong.num { font-size: var(--text-xl); }
